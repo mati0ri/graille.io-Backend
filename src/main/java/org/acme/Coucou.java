@@ -1,0 +1,19 @@
+package org.acme;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+
+
+
+@Path("/coucou")
+public class Coucou {
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String hello() {
+        return "Coucou bienvenue sur Geometry dash 2";
+    }
+}

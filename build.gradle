@@ -1,0 +1,71 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id "org.sonarqube" version "4.4.1.3373"
+    id 'jacoco'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-resteasy-reactive'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-websockets'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation "io.quarkus:quarkus-jacoco"
+}
+
+group 'org.acme'
+version '1.0.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    finalizedBy jacocoTestReport
+    jacoco {
+        excludeClassLoaders = ["*QuarkusClassLoader"]
+        destinationFile = layout.buildDirectory.file("jacoco-quarkus.exec").get().asFile
+    }
+    jacocoTestReport.enabled = true
+}
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "projet11"
+        property "sonar.token", "sqp_c05c4e2fcc0c4d79bec0f9ed39c2c3be3a276955"
+        property "sonar.projectName", "projet11"
+        property "sonar.qualitygate.wait", true
+        property "sonar.host.url", "https://sonar.home.lange.xyz"
+        tasks.jacocoTestReport.configure {
+            property("sonar.coverage.jacoco.xmlReportPaths", ["build/reports/jacoco/test/jacocoTestReport.xml"])
+        }
+    }
+}
+
+jacocoTestReport{
+    reports {
+        xml.required = true
+        csv.required = true
+        html.required = true
+    }
+}
