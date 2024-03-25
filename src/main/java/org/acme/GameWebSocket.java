@@ -14,11 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper; // Assurez-vous d'inclure la
 @ServerEndpoint("/ws/game")
 public class GameWebSocket {
 
-    private static final Map<String, Position> positions = new ConcurrentHashMap<>();
+    static final Map<String, Position> positions = new ConcurrentHashMap<>();
     private static final Set<Square> squares = new CopyOnWriteArraySet<>(); // Pour stocker les carrés
 
     private static final ObjectMapper objectMapper = new ObjectMapper(); // Pour convertir les objets en JSON
-    private static final Set<Session> sessions = ConcurrentHashMap.newKeySet();
+    static final Set<Session> sessions = ConcurrentHashMap.newKeySet();
     private static final Random random = new Random();
     private static Timer timer = new Timer();
     private static boolean isTaskScheduled = false;
@@ -29,7 +29,7 @@ public class GameWebSocket {
     public void onOpen(Session session) {
         System.out.println("Connected: " + session.getId());
         sessions.add(session);
-        positions.put(session.getId(), new Position(100, 100, session.getId()));
+        positions.put(session.getId(), new Position(random.nextInt(1200), random.nextInt(700), session.getId()));
         broadcastState();
 
         // Planifier la génération de carrés jaunes uniquement si elle n'a pas encore été planifiée
@@ -110,8 +110,8 @@ public class GameWebSocket {
         // Générer des positions aléatoires pour les carrés
         squares.clear(); // Supprimer les anciens carrés
         for (int i = 0; i < 10; i++) { // Générer 5 carrés par exemple
-            int x = random.nextInt(800); // Supposons que votre canvas fait 800x600
-            int y = random.nextInt(600);
+            int x = random.nextInt(1200); // Supposons que votre canvas fait 800x600
+            int y = random.nextInt(700);
             squares.add(new Square(x, y));
         }
 
@@ -119,8 +119,8 @@ public class GameWebSocket {
     }
 
     private Square generateNewSquare() {
-        int x = random.nextInt(800); // Assurez-vous que ces valeurs correspondent à la taille de votre zone de jeu
-        int y = random.nextInt(600);
+        int x = random.nextInt(1200); // Assurez-vous que ces valeurs correspondent à la taille de votre zone de jeu
+        int y = random.nextInt(700);
         return new Square(x, y);
     }
 
