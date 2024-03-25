@@ -110,8 +110,8 @@ public class GameWebSocket {
         // Générer des positions aléatoires pour les carrés
         squares.clear(); // Supprimer les anciens carrés
         for (int i = 0; i < 10; i++) { // Générer 5 carrés par exemple
-            int x = random.nextInt(1200); // Supposons que votre canvas fait 800x600
-            int y = random.nextInt(700);
+            int x = random.nextInt(800); // Supposons que votre canvas fait 800x600
+            int y = random.nextInt(600);
             squares.add(new Square(x, y));
         }
 
@@ -119,8 +119,8 @@ public class GameWebSocket {
     }
 
     private Square generateNewSquare() {
-        int x = random.nextInt(1200); // Assurez-vous que ces valeurs correspondent à la taille de votre zone de jeu
-        int y = random.nextInt(700);
+        int x = random.nextInt(800); // Assurez-vous que ces valeurs correspondent à la taille de votre zone de jeu
+        int y = random.nextInt(600);
         return new Square(x, y);
     }
 

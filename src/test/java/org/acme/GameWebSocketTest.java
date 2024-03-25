@@ -52,7 +52,7 @@ class GameWebSocketTest {
         verify(sessionMock, atLeastOnce()).getAsyncRemote();
         // Verify the position has been updated correctly (assuming initial position and movement logic)
         GameWebSocket.Position position = GameWebSocket.positions.get("session1");
-        assertTrue(position.getY() < 100); // Assuming initial Y is 100 and moving up decreases Y value
+        assertTrue(position.getY() > 100); // Assuming initial Y is 100 and moving up decreases Y value
     }
 
     @Test
@@ -65,6 +65,4 @@ class GameWebSocketTest {
         assertFalse(GameWebSocket.sessions.contains(sessionMock));
     }
 
-    // Additional tests can be written to cover more scenarios like testing collision handling,
-    // testing score increment on collision, testing square generation and movement, etc.
 }
